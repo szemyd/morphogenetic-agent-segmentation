@@ -24,7 +24,7 @@
  <REFERENCE>
  */
 
-
+PVector [] pt_All;
 
 PVector [][] ctrl_pts;
 int N_u, N_v;
@@ -46,6 +46,7 @@ float circX, circY, circZ; // To controll the attractor.
 PVector att= new PVector();
 
 Button [] switches= new Button[5];
+Button [] switches2= new Button[5];
 
 
 void setup()
@@ -69,23 +70,34 @@ void setup()
   switches[3]= new Button("SIDE", (20+width/5+100), ((height/5+10)/switches.length)*4, 100, (height/5)/switches.length-5);
   switches[4]= new Button("WIRE", (20+width/5+100), ((height/5+10)/switches.length)*5, 100, (height/5)/switches.length-5);
 
-  switches[0].onOff=true;
+  switches2[0]=new Button("TRIANGLE", (20+width/5+220), ((height/5+10)/switches2.length), 100, (height/5)/switches2.length-5);
+  switches2[1]=new Button("PYRAMID", (20+width/5+220), ((height/5+10)/switches2.length)*2, 100, (height/5)/switches2.length-5);
+  switches2[2]=new Button("NORMALS", (20+width/5+220), ((height/5+10)/switches2.length)*3, 100, (height/5)/switches2.length-5);
+
+  switches[0].onOff=false;
+  switches2[1].onOff=false;
+  switches2[0].onOff=true;
+  switches2[2].onOff=false;
 }
 
 
 void draw()
 {
   background(.85);
-  environment();
+
   lights();
-  
+
   drawSurf(0.01, 0.01);
-  drawNrml(0.01, 0.01);
+  if (switches2[2].onOff) drawNrml(0.01, 0.01);
 
   drawCtrlPts();
 
-  drawPyramids();
-  drawAttractor(); // Draws the sphere of the attractor.
+  if (switches2[1].onOff) 
+  {
+    drawPyramids();
+    drawAttractor(); // Draws the sphere of the attractor.
+  }
+  environment();
 }
 
 

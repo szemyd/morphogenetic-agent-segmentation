@@ -5,6 +5,7 @@ void drawSurf(float du, float dv)
   noStroke();
 
   boolean odd=false;
+  boolean odd2=false;
   int l=0;
   int selector;
 
@@ -21,31 +22,56 @@ void drawSurf(float du, float dv)
     for (float u = knots_u[D_u]; u <= knots_u[knots_u.length-D_u-1]; u += du*selector) {
       m++;
       float pastU=u; // Memorize current position.
+      odd2=!odd2;
 
-      if (switches[0].onOff) 
+      if (switches[0].onOff || switches2[0].onOff) 
       {
         if (odd) u+=du*1.5;   // Every second row should be shifted if hex.
       } 
 
-      PVector [] pt_All= new PVector[6];
+
       float myCoor= sqrt(0.75); // Calculate the 'v' distance from the middle point.
+      PVector [] pt_All= new PVector[6];
 
+      if (switches[0].onOff)
+      {
 
-      pt_All[0] = surfPos (u-du, v                 );
-      pt_All[1] = surfPos (u-du*0.5, v+dv*myCoor   );
-      pt_All[2] = surfPos (u+du*0.5, v+dv*myCoor   );
-      pt_All[3] = surfPos (u+du, v                 );
-      pt_All[4] = surfPos (u+du*0.5, v-dv*myCoor   );
-      pt_All[5] = surfPos (u-du*0.5, v-dv*myCoor   );
+        pt_All[0] = surfPos (u-du, v             );
+        pt_All[1] = surfPos (u-du*0.5, v+dv*myCoor   );
+        pt_All[2] = surfPos (u+du*0.5, v+dv*myCoor   );
+        pt_All[3] = surfPos (u+du, v             );
+        pt_All[4] = surfPos (u+du*0.5, v-dv*myCoor   );
+        pt_All[5] = surfPos (u-du*0.5, v-dv*myCoor   );
+      } else if (switches[1].onOff)
+      {
+        //PVector [] pt_All= new PVector[4];
+        pt_All[0] = surfPos(u, v   );
+        pt_All[1] = surfPos(u+du, v   );
+        pt_All[2] = surfPos(u+du, v+dv);
+        pt_All[3] = surfPos(u, v+dv);
+      } else if (switches2[0].onOff)
+      {
+        if (odd2)
+        {
+          //PVector [] pt_All= new PVector[3];
+          pt_All[0] = surfPos(u, v   );
+          pt_All[1] = surfPos(u+du, v  );
+          pt_All[2] = surfPos(u+du*0.5, v+dv);
+        } else
+        {
+          pt_All[0] = surfPos(u, v   );
+          pt_All[1] = surfPos(u+du*0.5, v+dv  );
+          pt_All[2] = surfPos(u-du*0.5, v+dv);
+        }
+        stroke(0.75);
+      }
 
       beginShape();
       {
-        vertex(pt_All[0].x, pt_All[0].y, pt_All[0].z);
-        vertex(pt_All[1].x, pt_All[1].y, pt_All[1].z);
-        vertex(pt_All[2].x, pt_All[2].y, pt_All[2].z);
-        vertex(pt_All[3].x, pt_All[3].y, pt_All[3].z);
-        vertex(pt_All[4].x, pt_All[4].y, pt_All[4].z);
-        vertex(pt_All[5].x, pt_All[5].y, pt_All[5].z);
+        for (int i=0; i<pt_All.length; i++)
+        {
+          if (pt_All[i]!=null)  vertex(pt_All[i].x, pt_All[i].y, pt_All[i].z);
+        }
         vertex(pt_All[0].x, pt_All[0].y, pt_All[0].z);
       }
       endShape();

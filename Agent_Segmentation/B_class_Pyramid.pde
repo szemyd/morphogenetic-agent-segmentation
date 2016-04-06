@@ -40,14 +40,17 @@ class Pyramid
       noStroke();
     }
 
-     
-    for (int i=0; i<6; i++)
+
+    for (int i=0; i< pt_AllP.length; i++)
     {
       beginShape(TRIANGLE);
       {
-        vertex(pt_AllP[(i + 6)%6].x, pt_AllP[(i + 6)%6].y, pt_AllP[(i + 6)%6].z);
-        vertex(pt_AllP[(i +1 + 6)%6].x, pt_AllP[(i +1 + 6)%6].y, pt_AllP[(i +1 + 6)%6].z);
-        vertex(nrmlP.x, nrmlP.y, nrmlP.z);
+        //if (pt_AllP[(i + pt_AllP.length)%pt_AllP.length]!=null && pt_AllP[(i +1 + pt_AllP.length)%pt_AllP.length]!=null)
+        {
+          vertex(pt_AllP[(i + pt_AllP.length)%pt_AllP.length].x, pt_AllP[(i + pt_AllP.length)%pt_AllP.length].y, pt_AllP[(i + pt_AllP.length)%pt_AllP.length].z);
+          vertex(pt_AllP[(i +1 + pt_AllP.length)%pt_AllP.length].x, pt_AllP[(i +1 + pt_AllP.length)%pt_AllP.length].y, pt_AllP[(i +1 + pt_AllP.length)%pt_AllP.length].z);
+          vertex(nrmlP.x, nrmlP.y, nrmlP.z);
+        }
       }
       endShape();
     }

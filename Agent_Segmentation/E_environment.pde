@@ -23,6 +23,10 @@ void cameras(int num)
         switches[2].onOff=false;
         switches[3].onOff=false;
       }
+      if (key==CODED) if(keyCode==CONTROL)
+      {
+        zoom=map(mouseY,0,height,0,20);
+      }
     }
 
     //---> Camera Manipulation
@@ -175,6 +179,13 @@ void hud()
   {
     switches[i].display();
   }
+  for (int i=0; i< switches2.length; i++)
+  {
+    if (switches2[i]!=null)
+    {
+      switches2[i].display();
+    }
+  }
   fill(0.5);
   textAlign(RIGHT);
   textSize(12);
@@ -198,6 +209,13 @@ void mousePressed()
   {
 
     switches[i].OnClick();
+  }
+  for (int i=0; i<switches2.length; i++)
+  {
+    if (switches2[i]!=null)
+    {
+      switches2[i].OnClick();
+    }
   }
 }
 
@@ -243,6 +261,7 @@ class Button
     }
     popMatrix();
   }
+
   void OnClick ()
   {
     if (mouseX<buttonPosition.x+buttonSizeX/2 &&
@@ -252,8 +271,22 @@ class Button
     {
       onOff=!onOff;
 
-      if (this==switches[0]) switches[1].onOff=!switches[0].onOff;
-      if (this==switches[1])  switches[0].onOff=!switches[1].onOff;
+      if (this==switches[0]) 
+      {
+        switches[1].onOff=!switches[0].onOff;
+        switches2[0].onOff=!switches[0].onOff;
+      }
+      if (this==switches[1])  
+      {
+        switches[0].onOff=!switches[1].onOff;
+        switches2[0].onOff=!switches[1].onOff;
+      }
+
+      if (this==switches2[0]) 
+      {
+        switches[0].onOff=!switches2[0].onOff;
+        switches[1].onOff=!switches2[0].onOff;
+      }
       if (this==switches[2]) switches[3].onOff=false;
       if (this==switches[3])  switches[2].onOff=false;
 
