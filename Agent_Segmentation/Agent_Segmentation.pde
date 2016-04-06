@@ -24,8 +24,6 @@
  <REFERENCE>
  */
 
-PVector [] pt_All;
-
 PVector [][] ctrl_pts;
 int N_u, N_v;
 
@@ -33,7 +31,7 @@ float [] knots_u;
 float [] knots_v;
 int D_u, D_v; // This is the degree.
 
-Pyramid [][] distObjects = new Pyramid[60][60];
+Pyramid [][] distObjects = new Pyramid[100][100];
 int numOfObjects;
 
 float radius=1000;

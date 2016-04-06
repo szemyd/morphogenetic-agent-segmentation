@@ -5,7 +5,7 @@ void drawSurf(float du, float dv)
   noStroke();
 
   boolean odd=false;
-  boolean odd2=false;
+
   int l=0;
   int selector;
 
@@ -18,11 +18,12 @@ void drawSurf(float du, float dv)
     odd=!odd; // Every second row is selected
     l++;
     int m=0;
+    //boolean odd2=true;
 
     for (float u = knots_u[D_u]; u <= knots_u[knots_u.length-D_u-1]; u += du*selector) {
       m++;
       float pastU=u; // Memorize current position.
-      odd2=!odd2;
+      //odd2=!odd2;
 
       if (switches[0].onOff || switches2[0].onOff) 
       {
@@ -35,7 +36,6 @@ void drawSurf(float du, float dv)
 
       if (switches[0].onOff)
       {
-
         pt_All[0] = surfPos (u-du, v             );
         pt_All[1] = surfPos (u-du*0.5, v+dv*myCoor   );
         pt_All[2] = surfPos (u+du*0.5, v+dv*myCoor   );
@@ -44,38 +44,56 @@ void drawSurf(float du, float dv)
         pt_All[5] = surfPos (u-du*0.5, v-dv*myCoor   );
       } else if (switches[1].onOff)
       {
-        //PVector [] pt_All= new PVector[4];
         pt_All[0] = surfPos(u, v   );
         pt_All[1] = surfPos(u+du, v   );
         pt_All[2] = surfPos(u+du, v+dv);
         pt_All[3] = surfPos(u, v+dv);
       } else if (switches2[0].onOff)
       {
-        if (odd2)
-        {
-          //PVector [] pt_All= new PVector[3];
-          pt_All[0] = surfPos(u, v   );
-          pt_All[1] = surfPos(u+du, v  );
-          pt_All[2] = surfPos(u+du*0.5, v+dv);
-        } else
-        {
-          pt_All[0] = surfPos(u, v   );
-          pt_All[1] = surfPos(u+du*0.5, v+dv  );
-          pt_All[2] = surfPos(u-du*0.5, v+dv);
-        }
-        stroke(0.75);
+        pt_All[0] = surfPos(u, v   );
+        pt_All[1] = surfPos(u+du, v  );
+        pt_All[2] = surfPos(u+du*0.5, v+dv);
+
+        pt_All[3] = surfPos(u, v   );
+        pt_All[4] = surfPos(u+du*0.5, v+dv  );
+        pt_All[5] = surfPos(u-du*0.5, v+dv);
       }
 
-      beginShape();
+      stroke(0.75);
+
+
+      if (switches2[0].onOff)
       {
-        for (int i=0; i<pt_All.length; i++)
+        beginShape();
         {
-          if (pt_All[i]!=null)  vertex(pt_All[i].x, pt_All[i].y, pt_All[i].z);
+          for (int i=0; i<pt_All.length-3; i++)
+          {
+            if (pt_All[i]!=null)  vertex(pt_All[i].x, pt_All[i].y, pt_All[i].z);
+          }
+          vertex(pt_All[0].x, pt_All[0].y, pt_All[0].z);
         }
-        vertex(pt_All[0].x, pt_All[0].y, pt_All[0].z);
+        endShape();
+        beginShape();
+        {
+          for (int i=3; i<pt_All.length; i++)
+          {
+            if (pt_All[i]!=null)  vertex(pt_All[i].x, pt_All[i].y, pt_All[i].z);
+          }
+          vertex(pt_All[0].x, pt_All[0].y, pt_All[0].z);
+        }
+        endShape();
+      } else
+      {
+        beginShape();
+        {
+          for (int i=0; i<pt_All.length; i++)
+          {
+            if (pt_All[i]!=null)  vertex(pt_All[i].x, pt_All[i].y, pt_All[i].z);
+          }
+          vertex(pt_All[0].x, pt_All[0].y, pt_All[0].z);
+        }
+        endShape();
       }
-      endShape();
-
 
       distObjects[l][m].position(pt_All);
 
